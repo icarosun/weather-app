@@ -4,6 +4,7 @@ import { STATIONS, Station } from '@/constants/stations'
 import { useStationContext } from '@/hooks/useStationContext'
 import { Link, router } from 'expo-router'
 import { Image, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import MapView, { Marker } from 'react-native-maps'
 
 export default function Page() {
@@ -49,61 +50,57 @@ export default function Page() {
   }
 
   return (
-    <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        initialRegion={{
-          latitude: -9.9256,
-          longitude: -63.0714,
-          latitudeDelta: 8,
-          longitudeDelta: 8,
-        }}
-        toolbarEnabled={false}
-      >
-        {STATIONS.map((station) => (
-          <Marker
-            key={station.id}
-            coordinate={{
-              latitude: station.latitude,
-              longitude: station.longitude,
-            }}
-            title={station.name}
-            onPress={() => handleOpenStationPage(station)}
-          >
-            <CustomMapMarker
-              data={recentObservedHydrologicalData.find(
-                (e) => e.station_id === station.id
-              )}
-            />
-          </Marker>
-        ))}
-      </MapView>
-      <View style={styles.logoContainer}>
-        <Image
-          style={styles.logo}
-          source={require('@/assets/images/labclim-logo-horizontal.png')}
-        />
-      </View>
-      <View style={styles.labelsContainer}>
-        <Image
-          style={styles.labels}
-          source={require('@/assets/images/labels.png')}
-        />
-      </View>
-    </View>
-  )
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        <MapView
+          style={styles.map}
+          initialRegion={{
+            latitude: -9.9256,
+            longitude: -63.0714,
+            latitudeDelta: 8,
+            longitudeDelta: 8,
+          }}
+          toolbarEnabled={false}
+        >
+          {STATIONS.map((station) => (
+            <Marker
+              key={station.id}
+              coordinate={{
+                latitude: station.latitude,
+                longitude: station.longitude,
+              }}
+              title={station.name}
+              onPress={() => handleOpenStationPage(station)}
+            >
+              <CustomMapMarker
+                data={recentObservedHydrologicalData.find(
+                  (e) => e.station_id === station.id
+                )}
+              />
+            </Marker>
+          ))}
+        </MapView>
+        <View style={styles.logoContainer}>
+          <Image
+            style={styles.logo}
+            source={require('@/assets/images/labclim-logo-horizontal.png')}
+          />
+        </View>
+        <View style={styles.labelsContainer}>
+          <Image
+            style={styles.labels}
+            source={require('@/assets/images/labels.png')}
+          />
+        </View>
+      </SafeAreaView>
+    </SafeAreaProvider>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-  },
-  main: {
-    flex: 1,
-    justifyContent: 'center',
-    maxWidth: 960,
-    marginHorizontal: 'auto',
   },
   title: {
     fontSize: 64,
@@ -132,7 +129,7 @@ const styles = StyleSheet.create({
   },
   labelsContainer: {
     position: 'absolute',
-    bottom: 5,
+    bottom: 25,
     borderRadius: 20,
   },
   labels: {
