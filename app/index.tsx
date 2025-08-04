@@ -8,14 +8,10 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import MapView, { Marker } from 'react-native-maps'
 import { SvgXml } from 'react-native-svg';
 
-const getSvg = (value, color) => `
-<svg width="50" height="70" viewBox="0 0 50 70" xmlns="http://www.w3.org/2000/svg">
-  <path d="M25 0C11 0 0 11 0 25c0 17.1 25 45 25 45s25-28 25-45C50 11 39 0 25 0z" fill="white"/>
-  <circle cx="25" cy="25" r="23" fill="${color}"/>
-  <text x="25" y="30" font-size="18" fill="black" text-anchor="middle" font-family="Arial" font-weight="bold">${value}</text>
-</svg>
-`;
-
+const getSvg = (text, colorText, colorCircle) => `<svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="25" cy="25" r="18" fill="${colorCircle}" stroke="black" stroke-width="0.5" />
+    <text x="25" y="32" font-size="14" fill="${colorText}" text-anchor="middle" font-family="Arial" font-weight="bold">${text}</text>
+  </svg>`
 
 export default function Page() {
   const insets = useSafeAreaInsets(); 
@@ -66,32 +62,17 @@ export default function Page() {
     const interpretation = data?.climatologicalInterpretation
     const elevation = data?.elevation
 
+    var colorText = "black"
+    var colorCircle = "black"
+
     if (interpretation) {
-      return (
-        <View style={styles.markerContainerTest}>
-        <View
-          style={[
-            styles.pinHead,
-            { backgroundColor: interpretationColors[interpretation] },
-          ]}
-        >
-          <Text
-            style={[
-              styles.pinText,
-              {
-                color:
-                  interpretation === '-3' || interpretation === '3'
-                    ? 'white'
-                    : 'black',
-              },
-            ]}
-          >
-            {elevation?.toFixed(1)}
-          </Text>
-        </View>
-            <View style={styles.pinTail} />
-        </View>
-      )
+      if (interpretation === '-3' || interpretation === '3') {
+        colorText = "white"
+      }
+    
+      colorCircle = interpretationColors[interpretation];
+      
+      return (<SvgXml xml={getSvg(elevation?.toFixed(1), colorText, colorCircle)} width="50" height="40" />);
     }
   }
 
@@ -114,18 +95,16 @@ export default function Page() {
               latitude: station.latitude,
               longitude: station.longitude,
             }}
-            title={station.name}
+            // title={station.name}
             onPress={() => handleOpenStationPage(station)}
-            // anchor={{x: 0.4, y: 0.8}} 
-            anchor={{x: 0.5, y:0.6}}
+            anchor={{x: 0.5, y: 0.6}}
           >
             {/* <CustomMapMarker */}
             {/*   data={recentObservedHydrologicalData.find( */}
             {/*     (e) => e.station_id === station.id */}
             {/*   )} */}
             {/* /> */}
-            {/* <CustomTestMarker data={recentObservedHydrologicalData.find((e) => e.station_id === station.id)} />   */}
-            <SvgXml xml={getSvg(35.1, 'orange')} width="50" height="40" />
+            <CustomTestMarker data={recentObservedHydrologicalData.find((e) => e.station_id === station.id)} />  
           </Marker>
         ))}
       </MapView>
@@ -171,7 +150,7 @@ const styles = StyleSheet.create({
     height: 35,
     justifyContent: 'center',
     alignItems: 'center',
-    // borderRadius: '100%',
+    borderRadius: '100%',
     borderWidth: 0.5,
     borderColor: 'black',
     // transform: [{ translateY: 20}]
