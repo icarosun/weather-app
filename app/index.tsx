@@ -97,18 +97,18 @@ export default function Page() {
             }}
             // title={station.name}
             onPress={() => handleOpenStationPage(station)}
-            anchor={{x: 0.5, y: 0.6}}
+            anchor={{x: 0.3, y: 0.3}} 
           >
-            {/* <CustomMapMarker */}
-            {/*   data={recentObservedHydrologicalData.find( */}
-            {/*     (e) => e.station_id === station.id */}
-            {/*   )} */}
-            {/* /> */}
-            <CustomTestMarker data={recentObservedHydrologicalData.find((e) => e.station_id === station.id)} />  
+            <CustomMapMarker
+              data={recentObservedHydrologicalData.find(
+                (e) => e.station_id === station.id
+              )}
+            />
+            {/* <CustomTestMarker data={recentObservedHydrologicalData.find((e) => e.station_id === station.id)} />   */}
           </Marker>
         ))}
       </MapView>
-      <View style={[styles.logoContainer, { top: insets.top}]}>
+      <View style={[styles.logoContainer ]}>
         <Image
           style={styles.logo}
           source={require('@/assets/images/labclim-logo-horizontal.png')}
