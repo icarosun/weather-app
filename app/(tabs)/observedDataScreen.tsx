@@ -56,17 +56,9 @@ export default function ObservedDataScreen() {
   return (
     <ThemedView style={styles.mainContainer}>
       <ThemedView style={styles.titleContainer}>
-        <Image
-          style={styles.logo}
-          source={require('@/assets/images/uea.png')}
-        />
         <ThemedText type='title'>{station.name}</ThemedText>
-        <Image
-          style={styles.logo}
-          source={require('@/assets/images/labclim-logo.png')}
-        />
       </ThemedView>
-
+      <ThemedText type='default'>Informações em tempo real sobre condições hídricas e meteorológicas</ThemedText>
       <ThemedView style={styles.generalDataContainer}>
         {observedHydrologicalData.date && (
           <ThemedView style={styles.hydrologicalDataContainer}>
