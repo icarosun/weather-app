@@ -17,16 +17,21 @@ export default function Card (){
       <View style={styles.card}>
         <View style={styles.titleHeader}>
           <Ionicons name="water-outline" size={35} color="#0077B3" style={{ marginLeft: -4 }}/> 
-          <Text style={styles.title}>Dados Hidrológicos</Text>
+          <Text style={styles.title}>Nível do Rio</Text>
         </View>
 
         <ThemedText type="default" style={{marginBottom: 10}}>{"Rio Humaitá"}</ThemedText>
         
         <ClimatologicalInterpretation
           interpretation={
-            "-3" 
+            "3" 
           }
         />
+
+        <View style={styles.titleHeader}>
+          <Text style={{fontWeight: '800', fontSize: 40, color: "#0077B3"}}>{"50,3"}</Text>
+          <Text style={{marginTop: 7, marginLeft: 6}}>m</Text>
+        </View>
 
         <View style={styles.separator} />
 
@@ -34,12 +39,6 @@ export default function Card (){
           <Entypo name="calendar" size={20} color="#555" />
           <Text style={styles.label}>Data:</Text>
           <Text style={styles.value}>{"Hoje"}</Text>
-        </View>
-
-        <View style={styles.section}>
-          <MaterialCommunityIcons name="waves" size={20} color="#0077B3" />
-          <Text style={styles.label}>Nível do Rio</Text>
-          <Text style={styles.value}>{2} m</Text>
         </View>
 
         <View style={styles.section}>
@@ -63,28 +62,31 @@ export default function Card (){
         <View style={styles.sectionPrognostico}>
           <View style={styles.cardPrognostico}>
             <Text>1 Mês</Text>
-            <ThemedText>{1} m</ThemedText>
+            <ThemedText style={{marginVertical: 20, fontWeight: '900'}}>{1} m</ThemedText>
             <ClimatologicalInterpretation
               interpretation={
                 "-3" 
               }
             />
-          </View><View style={styles.cardPrognostico}>
+          </View>
+
+          <View style={styles.cardPrognostico }>
             <Text>2 Meses</Text>
-            <ThemedText>{"1,5"} m</ThemedText>
+            <ThemedText style={{marginVertical: 20, fontWeight: '900'}}>{"1,5"} m</ThemedText>
             <ClimatologicalInterpretation
               interpretation={
-                "-3" 
+                "0" 
               }
             />
-          </View><View style={styles.cardPrognostico}>
+          </View>
+
+          <View style={styles.cardPrognostico}>
             <Text>3 Meses</Text>
-            <ThemedText>{3} m</ThemedText>
-            <ClimatologicalInterpretation
-              interpretation={
-                "-2" 
-              }
-            />
+            <ThemedText style={{marginVertical: 20, fontWeight: '900'}}>{"3,5"} m</ThemedText>
+            <View style={styles.statusPrognostico}>
+              <Text style={styles.textoSuperior}>Emergência</Text>
+              <Text style={styles.textoInferior}>Inundação</Text>
+            </View>
           </View>
 
         </View>
@@ -206,10 +208,30 @@ const styles = StyleSheet.create({
   }, 
   cardPrognostico: {
     flex: 1,
-    backgroundColor: '#e0f7ff',
+    // backgroundColor: '#e0f7ff',
+    backgroundColor: '#fff',
     padding: 5,
     borderRadius: 8,
     marginHorizontal: 3, // espaço entre os cards
     alignItems: 'center',
-  }
+    borderWidth: 1,
+  },
+  statusPrognostico: {
+    padding: 8,
+    alignItems: 'center', // Centraliza horizontalmente
+    justifyContent: 'center', // Centraliza verticalmente
+    backgroundColor: '#00008B',
+    alignSelf: 'center',
+    borderRadius: 16,
+  },
+textoSuperior: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+  textoInferior: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: 'white',
+  },
 });
