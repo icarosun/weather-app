@@ -12,11 +12,12 @@ export function ClimatologicalInterpretation({
   return (
     <View
       style={[
-        { backgroundColor: interpretationColors[interpretation] },
-        { padding: 5 },
-        { borderRadius: 5 },
-        { marginTop: 3 },
-        { marginBottom: 3 },
+        { alignSelf: 'flex-start'},
+        { backgroundColor: interpretationColors[interpretation], },
+        {
+          padding: 8,
+          borderRadius: 16,
+        }
       ]}
     >
       <Text
@@ -27,6 +28,10 @@ export function ClimatologicalInterpretation({
                 ? 'white'
                 : 'black',
           },
+          {
+            fontSize: 14,
+            fontWeight: 'bold',
+          }
         ]}
       >
         {descriptionOfInterpretation[interpretation]}
