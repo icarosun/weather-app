@@ -21,7 +21,11 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.santiagomonteiro.weatherapp"
+      "package": "com.santiagomonteiro.weatherapp",
+      "config": {
+        "googleMaps": {
+        }
+      }
     },
     "web": {
       "bundler": "metro",
@@ -39,7 +43,11 @@
     "extra": {
       "router": {
         "origin": false
+      },
+      "eas": {
+        "projectId": "8e6ba629-c185-4b5c-92c4-109189bb633d"
       }
-    }
+    },
+    "owner": "invoker859"
   }
 }
