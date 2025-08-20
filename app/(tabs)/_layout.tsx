@@ -14,6 +14,15 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
       }}>
+      <Tabs.Screen 
+        name="index" 
+        options={{ 
+          title: 'Mapa',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'map' : 'map-outline'} color={color} />
+          ),
+        }} 
+      />
       <Tabs.Screen
         name="observedDataScreen"
         options={{
