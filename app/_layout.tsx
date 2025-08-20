@@ -9,7 +9,6 @@ import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Drawer } from 'expo-router/drawer';
 
 import { useColorScheme } from '@/hooks/useColorScheme'
 import { StationProvider } from '@/contexts/stationContext'
@@ -34,32 +33,11 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <GestureHandlerRootView>
-        <StationProvider>
-          {/* <Stack> */}
-          {/*   <Stack.Screen name='index' options={{ headerShown: true }} /> */}
-          {/*   <Stack.Screen name='(tabs)' options={{ headerShown: false }} /> */}
-          {/*   <Stack.Screen name='+not-found' /> */}
-          {/* </Stack> */}
-          <Drawer>
-            <Drawer.Screen 
-              name="index"
-              options={{
-                drawerLabel: 'Mapa',
-                title: "Mapa"
-              }}
-            />
-            <Drawer.Screen 
-              name="whoWeAre"
-              options={{
-                drawerLabel: 'Quem somos?',
-                title: "Quem somos?"
-              }}
-            />
-          </Drawer>
-        </StationProvider>
-      </GestureHandlerRootView>
-    </ThemeProvider>
+      <StationProvider>
+        <Stack>
+          <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+          <Stack.Screen name='+not-found' />
+        </Stack>
+      </StationProvider>
   );
 };
