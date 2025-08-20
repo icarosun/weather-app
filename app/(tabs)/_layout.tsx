@@ -45,7 +45,7 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen 
-          name="whoWeAre"
+          name="about"
           options={{
             title: 'Sobre',
             headerShown: true,

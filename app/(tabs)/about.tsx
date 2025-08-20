@@ -15,7 +15,7 @@ import { format } from 'date-fns'
 import { useStationContext } from '@/hooks/useStationContext'
 import { formatNumericalData } from '@/utils/formatData'
 
-export default function WhoWeAre() {
+export default function About() {
   return (
     <ThemedView style={styles.mainContainer}>
       <ThemedText type="default" style={{textAlign: 'justify'}}>
