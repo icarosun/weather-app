@@ -16,9 +16,6 @@ export default function TabLayout() {
         screenOptions={{
           tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
           headerShown: false,
-          headerShadowVisible: false,
-          tabBarStyle: {
-          }
         }}>
         <Tabs.Screen 
           name="index" 
@@ -44,6 +41,16 @@ export default function TabLayout() {
             title: 'Previsão',
             tabBarIcon: ({ color, focused }) => (
               <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen 
+          name="whoWeAre"
+          options={{
+            title: 'Sobre',
+            headerShown: true,
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon name={focused ? 'information-circle' : 'information-circle-outline'} color={color} />
             ),
           }}
         />

@@ -33,11 +33,15 @@ export default function RootLayout() {
   }
 
   return (
-      <StationProvider>
-        <Stack>
-          <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-          <Stack.Screen name='+not-found' />
-        </Stack>
-      </StationProvider>
+    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <GestureHandlerRootView>
+        <StationProvider>
+          <Stack>
+            <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+            <Stack.Screen name='+not-found' />
+          </Stack>
+        </StationProvider>
+      </GestureHandlerRootView>
+    </ThemeProvider>
   );
 };
