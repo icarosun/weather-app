@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { ScrollView, ActivityIndicator, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons, FontAwesome5, Entypo, Ionicons } from '@expo/vector-icons';
 import { ThemedText } from '@/components/ThemedText'
 import { ThemedView } from '@/components/ThemedView'
@@ -60,21 +60,22 @@ export default function PageScreen (){
   }
 
   return (
-    <ThemedView style={styles.mainContainer}>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type='title'>{station.name}</ThemedText>
-        <ThemedText type='default'>Informações em tempo real sobre condições hídricas e meteorológicas</ThemedText>
-      </ThemedView>
+    <ScrollView>
+      <ThemedView style={styles.mainContainer}>
+        <ThemedView style={styles.titleContainer}>
+          <ThemedText type='title'>{station.name}</ThemedText>
+          <ThemedText type='default'>Informações em tempo real sobre condições hídricas e meteorológicas</ThemedText>
+        </ThemedView>
 
-      
-      {observedHydrologicalData.date && (
-        <View style={styles.card}>
+        {observedHydrologicalData.date && (
+          <View style={styles.card}>
             <View style={styles.titleHeader}>
               <Ionicons name="water-outline" size={35} color="#0077B3" style={{ marginLeft: -4 }}/> 
               <Text style={styles.title}>Nível do Rio</Text>
             </View>
             
             <ClimatologicalInterpretation
+              style={{ alignSelf: "flex-start"}}
               interpretation={
                 observedHydrologicalData.climatologicalInterpretation
               }
@@ -112,62 +113,67 @@ export default function PageScreen (){
             </ThemedText>
 
             <View style={styles.sectionPrognostico}>
-              <View style={styles.cardPrognostico}>
-                <Text>1 Mês</Text>
-                <ThemedText style={{marginVertical: 20, fontWeight: '900'}}>{1} m</ThemedText>
-                <ClimatologicalInterpretation
-                  interpretation={
-                    "-3" 
-                  }
-                />
-              </View>
-
-              <View style={styles.cardPrognostico }>
-                <Text>2 Meses</Text>
-                <ThemedText style={{marginVertical: 20, fontWeight: '900'}}>{"1,5"} m</ThemedText>
-                <ClimatologicalInterpretation
-                  interpretation={
-                    "0" 
-                  }
-                />
-              </View>
-
-              <View style={styles.cardPrognostico}>
-                <Text>3 Meses</Text>
-                <ThemedText style={{marginVertical: 20, fontWeight: '900'}}>{"3,5"} m</ThemedText>
-                <View style={styles.statusPrognostico}>
-                  <Text style={styles.textoSuperior}>Emergência</Text>
-                  <Text style={styles.textoInferior}>Inundação</Text>
+              {forecastHydrologicalData.map((forecastRegister) => (
+                <View key={forecastRegister.id} style={styles.cardPrognostico}>
+                  <Text>{format(forecastRegister.date, 'MM/yyyy')}</Text>
+                  <ThemedText style={{marginVertical: 20, fontWeight: '900'}}>{formatNumericalData(forecastRegister.elevation)} m</ThemedText>
+                  <ClimatologicalInterpretation
+                    interpretation={
+                      forecastRegister.climatologicalInterpretation 
+                    }
+                  />
                 </View>
-              </View>
+              ))}
+              
+
+              {/* <View style={styles.cardPrognostico }> */}
+              {/*   <Text>2 Meses</Text> */}
+              {/*   <ThemedText style={{marginVertical: 20, fontWeight: '900'}}>{"1,5"} m</ThemedText> */}
+              {/*   <ClimatologicalInterpretation */}
+              {/*     interpretation={ */}
+              {/*       "0"  */}
+              {/*     } */}
+              {/*   /> */}
+              {/* </View> */}
+              {/**/}
+              {/* <View style={styles.cardPrognostico}> */}
+              {/*   <Text>3 Meses</Text> */}
+              {/*   <ThemedText style={{marginVertical: 20, fontWeight: '900'}}>{"3,5"} m</ThemedText> */}
+              {/*   <View style={styles.statusPrognostico}> */}
+              {/*     <Text style={styles.textoSuperior}>Emergência</Text> */}
+              {/*     <Text style={styles.textoInferior}>Inundação</Text> */}
+              {/*   </View> */}
+              {/* </View> */}
 
             </View>
           </View>
-      )}
+        )}
 
-      <View style={styles.card}>
-           {/* --- Seção Meteorológica --- */}
+            {/* --- Seção Meteorológica --- */}
 
-      <View style={styles.titleHeader}>
-        <MaterialCommunityIcons name="weather-cloudy" size={35} color="#ff8500" /> 
-        <Text style={styles.titleMeteor}>Dados Meteorológicos</Text>
-      </View>
+        {observedMeteorologicalData.date && (
+          <View style={styles.card}>
+            <View style={styles.titleHeader}>
+              <MaterialCommunityIcons name="weather-cloudy" size={35} color="#ff8500" /> 
+              <Text style={styles.titleMeteor}>Dados Meteorológicos</Text>
+            </View>
 
-        <View style={styles.separator} />
-      <View style={styles.section}>
-        <MaterialCommunityIcons name="thermometer" size={20} color="#ff8500" />
-        <Text style={styles.label}>Temperatura:</Text>
-        <Text style={styles.value}>{12} °C</Text>
-      </View>
+            <View style={styles.separator} />
+            <View style={styles.section}>
+              <MaterialCommunityIcons name="thermometer" size={20} color="#ff8500" />
+              <Text style={styles.label}>Temperatura:</Text>
+              <Text style={styles.value}>{formatNumericalData(observedMeteorologicalData.temperature)} °C</Text>
+            </View>
 
-      <View style={styles.section}>
-        <MaterialCommunityIcons name="water-percent" size={20} color="#ff8500" />
-        <Text style={styles.label}>Umidade:</Text>
-        <Text style={styles.value}>{12} %</Text>
-      </View>
-
-      </View>
-    </ThemedView> 
+            <View style={styles.section}>
+              <MaterialCommunityIcons name="water-percent" size={20} color="#ff8500" />
+              <Text style={styles.label}>Umidade:</Text>
+              <Text style={styles.value}>{observedMeteorologicalData.humidity} %</Text>
+            </View>
+          </View>
+        )}
+      </ThemedView>
+    </ScrollView>
   );
 };
 
@@ -260,13 +266,14 @@ const styles = StyleSheet.create({
   }, 
   cardPrognostico: {
     flex: 1,
-    // backgroundColor: '#e0f7ff',
-    backgroundColor: '#fff',
+    backgroundColor: '#e0f7ff',
+    // backgroundColor: '#fff',
     padding: 5,
     borderRadius: 8,
     marginHorizontal: 3, // espaço entre os cards
     alignItems: 'center',
-    borderWidth: 1,
+    justifyContent: 'center'
+    // borderWidth: 1,
   },
   statusPrognostico: {
     padding: 8,
@@ -276,7 +283,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 16,
   },
-textoSuperior: {
+  textoSuperior: {
     fontSize: 14,
     fontWeight: 'bold',
     color: 'white',
