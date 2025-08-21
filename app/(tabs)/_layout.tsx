@@ -16,7 +16,8 @@ export default function TabLayout() {
         screenOptions={{
           tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
           headerShown: false,
-        }}>
+        }}
+      >
         <Tabs.Screen 
           name="index" 
           options={{ 
@@ -26,16 +27,26 @@ export default function TabLayout() {
             ),
           }} 
         />
-       <Tabs.Screen 
-          name="about"
-          options={{
-            title: 'Sobre',
+        <Tabs.Screen 
+          name="priority" 
+          options={{ 
+            title: 'Áreas Críticas',
             headerShown: true,
             tabBarIcon: ({ color, focused }) => (
-              <TabBarIcon name={focused ? 'information-circle' : 'information-circle-outline'} color={color} />
+              <TabBarIcon name={focused ? 'pulse' : 'pulse-outline'} color={color} />
             ),
-          }}
+          }} 
         />
+        <Tabs.Screen 
+            name="about"
+            options={{
+              title: 'Sobre',
+              headerShown: true,
+              tabBarIcon: ({ color, focused }) => (
+                <TabBarIcon name={focused ? 'information-circle' : 'information-circle-outline'} color={color} />
+              ),
+            }}
+          />
       </Tabs>
     </>
   );

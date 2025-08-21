@@ -12,7 +12,7 @@ import { ObservedMeteorologicalData } from '@/@types/observed-meteorological-dat
 import { formatNumericalData } from '@/utils/formatData'
 import { format } from 'date-fns'
 
-export default function PageScreen (){
+export default function ObservedDataScreen (){
   const { station, recentObservedHydrologicalData } = useStationContext()
 
   const [observedHydrologicalData, setObservedHydrologicalData] =
