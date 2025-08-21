@@ -26,25 +26,7 @@ export default function TabLayout() {
             ),
           }} 
         />
-        <Tabs.Screen
-          name="observedDataScreen"
-          options={{
-            title: 'Dados Observados',
-            tabBarIcon: ({ color, focused }) => (
-              <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="forecastDataScreen"
-          options={{
-            title: 'Previsão',
-            tabBarIcon: ({ color, focused }) => (
-              <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
-            ),
-          }}
-        />
-        <Tabs.Screen 
+       <Tabs.Screen 
           name="about"
           options={{
             title: 'Sobre',

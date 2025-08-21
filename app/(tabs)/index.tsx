@@ -5,7 +5,7 @@ import { useStationContext } from '@/hooks/useStationContext'
 import { Link, router } from 'expo-router'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import MapView, { Marker } from 'react-native-maps'
+import MapView, { Marker, Callout } from 'react-native-maps'
 
 export default function Page() {
   const insets = useSafeAreaInsets(); 
@@ -14,7 +14,7 @@ export default function Page() {
 
   function handleOpenStationPage(station: Station) {
     selectStation(station)
-    router.push('/(tabs)/observedDataScreen')
+    router.navigate('../observedData');
   }
 
   interface CustomMapMarkerProps {
@@ -80,14 +80,14 @@ export default function Page() {
             />
           </Marker>
         ))}
-      </MapView>
-      <View style={[styles.logoContainer ]}>
+     </MapView>
+      <View style={[styles.logoContainer, { top: insets.top } ]}>
         <Image
           style={styles.logo}
           source={require('@/assets/images/labclim-logo-horizontal.png')}
         />
       </View>
-      <View style={[styles.labelsContainer, { bottom: insets.bottom + 50}]}>
+      <View style={[styles.labelsContainer, { bottom: insets.bottom + 10}]}>
         <Image
           style={styles.labels}
           source={require('@/assets/images/labels.png')}
@@ -139,8 +139,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   logo: {
-    width: 130,
-    height: 50,
+    width: 170,
+    height: 70,
     resizeMode: 'contain',
   },
   logoContainer: {

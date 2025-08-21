@@ -38,6 +38,7 @@ export default function RootLayout() {
         <StationProvider>
           <Stack>
             <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+            <Stack.Screen name='observedData' options={{ headerShown: true, title: "Dados observados"  }} />
             <Stack.Screen name='+not-found' />
           </Stack>
         </StationProvider>
