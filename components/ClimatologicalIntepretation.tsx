@@ -1,23 +1,25 @@
 import { descriptionOfInterpretation } from '@/constants/description-of-interpretation'
 import { interpretationColors } from '@/constants/intepretation-colors'
-import { Text, View } from 'react-native'
+import { Text, View, StyleProp } from 'react-native'
 
 interface ClimatologicalInterpretationProps {
   interpretation: '-3' | '-2' | '-1' | '0' | '1' | '2' | '3';
+  style?: StyleProp<ViewStyle>;
 }
 
 export function ClimatologicalInterpretation({
   interpretation,
+  style,
 }: ClimatologicalInterpretationProps) {
   return (
     <View
       style={[
-        { alignSelf: 'flex-start'},
         { backgroundColor: interpretationColors[interpretation], },
         {
           padding: 8,
           borderRadius: 16,
-        }
+        },
+        style,
       ]}
     >
       <Text
