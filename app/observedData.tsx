@@ -64,7 +64,7 @@ export default function ObservedDataScreen (){
       <ThemedView style={styles.mainContainer}>
         <ThemedView style={styles.titleContainer}>
           <ThemedText type='title'>{station.name}</ThemedText>
-          <ThemedText type='default'>Informações em tempo real sobre condições hídricas e meteorológicas</ThemedText>
+          <ThemedText type='default'>Informações em tempo real sobre condições hidroclimáticas.</ThemedText>
         </ThemedView>
 
         {observedHydrologicalData.date && (
@@ -104,6 +104,18 @@ export default function ObservedDataScreen (){
               <MaterialCommunityIcons name="weather-pouring" size={20} color="#0077b6" />
               <Text style={styles.label}>Chuva acumulada:</Text>
               <Text style={styles.value}>{observedHydrologicalData.accumulated_rain} mm</Text>
+            </View>
+
+            <View style={styles.section}>
+              <MaterialCommunityIcons name="latitude" size={20} color="#555" />
+              <Text style={styles.label}>Latitude:</Text>
+              <Text style={styles.value}>{station.latitude}</Text>
+            </View>
+
+            <View style={styles.section}>
+              <MaterialCommunityIcons name="longitude" size={20} color="#555" />
+              <Text style={styles.label}>Longitude:</Text>
+              <Text style={styles.value}>{station.longitude}</Text>
             </View>
 
             <View style={styles.separator} />
