@@ -6,4 +6,5 @@ export type ObservedHydrologicalData = {
   accumulated_rain: number
   station_id: string
   climatologicalInterpretation: '-3' | '-2' | '-1' | '0' | '1' | '2' | '3';
+  dailyVariation: number
 }
