@@ -23,7 +23,7 @@ export default function Page() {
 
   function CustomMapMarker({ data }: CustomMapMarkerProps) {
     const interpretation = data?.climatologicalInterpretation
-    const elevation = data?.elevation
+    const elevation = data?.elevation / 100
 
     if (interpretation) {
       return (
