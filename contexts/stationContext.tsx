@@ -1,6 +1,7 @@
 import { ObservedHydrologicalData } from '@/@types/observed-hydrological-data'
-import { Station, STATIONS } from '@/constants/stations'
+import { Station } from '@/constants/stations'
 import { ReactNode, createContext, useEffect, useState } from 'react'
+import { fetchRecentObservedHydrologicalData } from "@/services/hydrologicalData.ts"
 
 type StationContextData = {
   station: Station
@@ -24,22 +25,7 @@ export function StationProvider({ children }: StationProviderProps) {
   }
 
   useEffect(() => {
-    async function getRecentObservedHydrologicalData() {
-      const observedData = []
-
-      for await (const station of STATIONS) {
-        const stationRequest = await fetch(
-          `https://labclim.uea.edu.br/api/hydrological-data/observed/${station.id}`
-        )
-
-        const stationData = await stationRequest.json()
-
-        observedData.push(stationData)
-      }
-      return observedData
-    }
-
-    getRecentObservedHydrologicalData().then((data) =>
+    fetchRecentObservedHydrologicalData().then((data) => 
       setRecentObservedHydrologicalData(data)
     )
   }, [])
