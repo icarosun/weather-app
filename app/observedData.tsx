@@ -4,6 +4,7 @@ import { MaterialCommunityIcons, FontAwesome5, Entypo, Ionicons } from '@expo/ve
 import { ThemedText } from '@/components/ThemedText'
 import { ThemedView } from '@/components/ThemedView'
 import { ClimatologicalInterpretation } from '@/components/ClimatologicalIntepretation'
+import { DailyVariation } from '@/components/DailyVariation'
 import { useStationContext } from '@/hooks/useStationContext'
 import { useEffect, useState } from 'react'
 import { Colors } from '@/constants/Colors'
@@ -89,13 +90,15 @@ export default function ObservedDataScreen (){
                   <Text style={{marginTop: 7, marginLeft: 6}}>m</Text>
                 </View>
               </View>
-              <View style={styles.sectionVariation}>
-                <View style={styles.secetionVariationLabel}>
-                  <Ionicons name="arrow-up-sharp" size={20} color="black" />
-                  <ThemedText type="lowDefault">-3 cm</ThemedText>
-                </View>
-                <ThemedText type="lowDefault">Variação Diária</ThemedText>
-              </View>
+
+              <DailyVariation value={observedHydrologicalData.dailyVariation} />
+              {/* <View> */}
+              {/*   <View style={styles.sectionVariationLabel}> */}
+              {/*     <Ionicons name="arrow-up-sharp" size={20} color="black" /> */}
+              {/*     <ThemedText type="lowDefault">-3 cm</ThemedText> */}
+              {/*   </View> */}
+              {/*   <ThemedText type="lowDefault">Variação Diária</ThemedText> */}
+              {/* </View> */}
             </View>
 
             <View style={styles.separator} />
@@ -139,7 +142,7 @@ export default function ObservedDataScreen (){
               <ThemedText default style={styles.value}>{station.longitude}</ThemedText>
             </View>
 
-            {forecastHydrologicalData !== null && (
+            {forecastHydrologicalData.length != 0 && (
               <>
                 <View style={styles.separator} />
 
@@ -345,9 +348,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     color: 'white',
-  },
-  secetionVariationLabel: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end' 
   },
 });
