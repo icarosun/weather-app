@@ -1,4 +1,4 @@
-import { ObservedHydrologicalData } from '@/@types/observed-hydrological-data'
+import { StationAggregateHydrologicalData } from '@/@types/station-aggregate-hydrological-data.d.ts'
 import { Station, STATIONS } from '@/constants/stations'
 import { ReactNode, createContext, useEffect, useState } from 'react'
 
@@ -15,28 +15,26 @@ type StationProviderProps = {
 export const StationContext = createContext({} as StationContextData)
 
 export function StationProvider({ children }: StationProviderProps) {
-  const [station, setStation] = useState<Station>({} as Station)
+  const [station, setStation] = useState<StationAggregateHydrologicalData>({} as StationAggregateHydrologicalData)
   const [recentObservedHydrologicalData, setRecentObservedHydrologicalData] =
-    useState<ObservedHydrologicalData[]>([])
+    useState<StationAggregateHydrologicalData[]>([])
 
-  function selectStation(station: Station) {
+  function selectStation(station: StationAggregateHydrologicalData) {
     setStation(station)
   }
 
   useEffect(() => {
     async function getRecentObservedHydrologicalData() {
-      const observedData = []
 
-      for await (const station of STATIONS) {
-        const stationRequest = await fetch(
-          `https://labclim.uea.edu.br/api/hydrological-data/observed/${station.id}`
-        )
+      const request = await fetch("https://labclim.uea.edu.br/api/hydrological-data/station")
 
-        const stationData = await stationRequest.json()
-
-        observedData.push(stationData)
+      if (request) {
+        const observedData = await request.json()
+        
+        return observedData
+      } else {
+        console.log("No backend service")
       }
-      return observedData
     }
 
     getRecentObservedHydrologicalData().then((data) =>

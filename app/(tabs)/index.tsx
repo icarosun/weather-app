@@ -18,12 +18,13 @@ export default function Page() {
   }
 
   interface CustomMapMarkerProps {
-    data: ObservedHydrologicalData | undefined
+    elevation: number
+    climatologicalInterpretation: '-3' | '-2' | '-1' | '0' | '1' | '2' | '3';
   }
 
-  function CustomMapMarker({ data }: CustomMapMarkerProps) {
-    const interpretation = data?.climatologicalInterpretation
-    const elevation = data?.elevation / 100
+  function CustomMapMarker({ elevation, climatologicalInterpretation }: CustomMapMarkerProps) {
+    const interpretation = climatologicalInterpretation
+    const formatedElevation = elevation / 100
 
     if (interpretation) {
       return (
@@ -44,7 +45,7 @@ export default function Page() {
               },
             ]}
           >
-            {elevation?.toFixed(1)}
+            {formatedElevation?.toFixed(1)}
           </Text>
         </View>
       )
@@ -63,7 +64,7 @@ export default function Page() {
         }}
         toolbarEnabled={false}
       >
-        {STATIONS.map((station) => (
+        {recentObservedHydrologicalData !== null && recentObservedHydrologicalData.map((station) => (
           <Marker
             key={station.id}
             coordinate={{
@@ -71,12 +72,11 @@ export default function Page() {
               longitude: station.longitude,
             }}
             onPress={() => handleOpenStationPage(station)}
-            anchor={{x: 0.3, y: 0.3}} 
+            anchor={{x: 0.3, y: 0.3}}
           >
             <CustomMapMarker
-              data={recentObservedHydrologicalData.find(
-                (e) => e.station_id === station.id
-              )}
+              elevation = {station.elevation}
+              climatologicalInterpretation = {station.climatologicalInterpretation}
             />
           </Marker>
         ))}
