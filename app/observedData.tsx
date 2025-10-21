@@ -156,9 +156,9 @@ export default function ObservedDataScreen (){
                       {/* <Text>{format(forecastRegister.date, 'dd/MM/yyyy')}</Text> */}
                       <ThemedText type="default">{format(forecastRegister.date, 'dd/MM/yyyy')}</ThemedText>
                       {/* <ThemedText style={{marginVertical: 20, fontWeight: '900'}}>{formatNumericalData(forecastRegister.elevation)} m</ThemedText> */}
-                      <ThemedText type="subtitle" style={{marginVertical: 10, fontSize: 25}}>{formatNumericalData(forecastRegister.flow)} m</ThemedText>
+                      <ThemedText type="subtitle" style={{marginVertical: 10, fontSize: 25}}>{formatNumericalData(forecastRegister.flow / 100)} m</ThemedText>
                       {/* <Text>{forecastRegister.low_derivation / 100} m - {forecastRegister.upp_derivation / 100} m</Text> */}
-                      <ThemedText type='default' style={{marginVertical: 5}}>{forecastRegister.low_derivation / 100} m - {forecastRegister.upp_derivation / 100} m</ThemedText>
+                      <ThemedText type='default' style={{marginVertical: 5}}>{formatNumericalData(forecastRegister.low_derivation / 100)} m - {formatNumericalData(forecastRegister.upp_derivation / 100)} m</ThemedText>
                       {/* <ClimatologicalInterpretation */}
                       {/*   interpretation={ */}
                       {/*     forecastRegister.climatologicalInterpretation  */}
