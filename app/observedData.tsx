@@ -108,7 +108,7 @@ export default function ObservedDataScreen (){
               {/* <Text style={styles.label}>Data:</Text> */}
               <ThemedText type="default" style={styles.label}>Data:</ThemedText>
               {/* <Text style={styles.value}>{format(observedHydrologicalData.date, 'dd/MM/yyyy HH:mm') + 'h'}</Text> */}
-              <ThemedText type="default" style={styles.value}>{format(observedHydrologicalData.date, 'dd/MM/yyyy HH:mm') + 'h'}</ThemedText>
+              <ThemedText type="default" style={styles.value}>{format(observedHydrologicalData.date, 'dd/MM/yyyy ') + observedHydrologicalData.date.substring(11, 16) + 'h'}</ThemedText>
             </View>
 
             <View style={styles.section}>
@@ -142,7 +142,7 @@ export default function ObservedDataScreen (){
               <ThemedText default style={styles.value}>{station.longitude}</ThemedText>
             </View>
 
-            {forecastHydrologicalData.length != 0 && (
+            {forecastHydrologicalData.length !== 0 && (
               <>
                 <View style={styles.separator} />
 
