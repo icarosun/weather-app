@@ -1,18 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
+import { useStationContext } from '@/hooks/useStationContext'
+import { View, Text, Dimensions } from "react-native";
+import { LineChart } from "react-native-chart-kit";
 
-const ChartObservedAndForecast = () => {
-  const [charData, setCharData] = useState(null);
+const screenWidth = Dimensions.get("window").width;
+
+export function ChartObservedAndForecast() {
+  const [chartData, setChartData] = useState(null);
+  const { station } = useStationContext()
 
   useEffect(() => {
-    fetch("api")
-    .then(response => {
-      const data = response.data.json();
-
-      const labels = data.map(item => item.data)
+    fetch(`https://labclim.uea.edu.br/api/hydrological-data/graphic/${station.station_id}`)
+    .then((response) => response.json())
+    .then((data) => {
+      const labels = data.map(item => item.date)
       const valuesObserved = data.map(item => item.observed)
       const valuesForecast = data.map(item => item.forecast)
 
-      setCharData({
+      setChartData({
         labels: labels,
         datasets: [
           {
@@ -32,7 +37,6 @@ const ChartObservedAndForecast = () => {
     .catch(error => {
       console.error("Erro ao buscar dados: ", error)
     })
-  
   }, [])
 
   if (!chartData) {
@@ -61,5 +65,3 @@ const ChartObservedAndForecast = () => {
     </View>
   )
 }
-
-export default ChartObservedAndForecast 

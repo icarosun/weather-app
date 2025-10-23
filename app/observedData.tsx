@@ -4,6 +4,7 @@ import { MaterialCommunityIcons, FontAwesome5, Entypo, Ionicons } from '@expo/ve
 import { ThemedText } from '@/components/ThemedText'
 import { ThemedView } from '@/components/ThemedView'
 import { ClimatologicalInterpretation } from '@/components/ClimatologicalIntepretation'
+import { ChartObservedAndForecast } from '@/components/ChartObservedAndForecast'
 import { DailyVariation } from '@/components/DailyVariation'
 import { useStationContext } from '@/hooks/useStationContext'
 import { useEffect, useState } from 'react'
@@ -16,9 +17,6 @@ import { format } from 'date-fns'
 export default function ObservedDataScreen (){
   const { station, recentObservedHydrologicalData } = useStationContext()
 
-  const [observedHydrologicalData, setObservedHydrologicalData] =
-    useState<ObservedHydrologicalData>({} as ObservedHydrologicalData)
-
   const [observedMeteorologicalData, setObservedMeteorologicalData] =
     useState<ObservedMeteorologicalData>({} as ObservedMeteorologicalData)
 
@@ -29,10 +27,8 @@ export default function ObservedDataScreen (){
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    setObservedHydrologicalData(recentObservedHydrologicalData.find((e) => e.station_id == station.id));
-
     fetch(
-      `https://labclim.uea.edu.br/api/hydrological-data/forecast/${station.id}`
+      `https://labclim.uea.edu.br/api/hydrological-data/forecast/${station.station_id}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -42,7 +38,7 @@ export default function ObservedDataScreen (){
       .catch((e) => console.error(e))
 
     fetch(
-      `https://labclim.uea.edu.br/api/meteorological-data/observed/${station.id}`
+      `https://labclim.uea.edu.br/api/meteorological-data/observed/${station.station_id}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -69,133 +65,128 @@ export default function ObservedDataScreen (){
           <ThemedText type="default">Informações em tempo real sobre as condições hidroclimáticas.</ThemedText>
         </ThemedView>
 
-        {observedHydrologicalData.date && (
-          <View style={styles.card}>
-            <View style={styles.titleHeader}>
-              <Ionicons name="water-outline" size={35} color="#0077B3" style={{ marginLeft: -4 }}/> 
-              <Text style={styles.title}>Nível do Rio</Text>
-            </View>
-            
-            <ClimatologicalInterpretation
-              style={{ alignSelf: "flex-start"}}
-              interpretation={
-                observedHydrologicalData.climatologicalInterpretation
-              }
-            />
-
-            <View style={styles.sectionInfo}>
-              <View style={styles.elevationInfo}>
-                <View style={styles.titleHeader}>
-                  <Text style={{fontWeight: '800', fontSize: 40, color: "#0077B3"}}>{formatNumericalData(observedHydrologicalData.elevation / 100)}</Text>
-                  <Text style={{marginTop: 7, marginLeft: 6}}>m</Text>
-                </View>
-              </View>
-
-              <DailyVariation value={observedHydrologicalData.dailyVariation} />
-              {/* <View> */}
-              {/*   <View style={styles.sectionVariationLabel}> */}
-              {/*     <Ionicons name="arrow-up-sharp" size={20} color="black" /> */}
-              {/*     <ThemedText type="lowDefault">-3 cm</ThemedText> */}
-              {/*   </View> */}
-              {/*   <ThemedText type="lowDefault">Variação Diária</ThemedText> */}
-              {/* </View> */}
-            </View>
-
-            <View style={styles.separator} />
-
-            <View style={styles.section}>
-              <Entypo name="calendar" size={20} color="#555" />
-              {/* <Text style={styles.label}>Data:</Text> */}
-              <ThemedText type="default" style={styles.label}>Data:</ThemedText>
-              {/* <Text style={styles.value}>{format(observedHydrologicalData.date, 'dd/MM/yyyy HH:mm') + 'h'}</Text> */}
-              <ThemedText type="default" style={styles.value}>{format(observedHydrologicalData.date, 'dd/MM/yyyy ') + observedHydrologicalData.date.substring(11, 16) + 'h'}</ThemedText>
-            </View>
-
-            <View style={styles.section}>
-              <MaterialCommunityIcons name="water-pump" size={20} color="#0077b6" />
-              {/* <Text style={styles.label}>Vazão:</Text> */}
-              {/* <Text style={styles.value}>{formatNumericalData(observedHydrologicalData.flow)} m³/s</Text> */}
-              <ThemedText typ="default" style={styles.label}>Vazão:</ThemedText>
-              <ThemedText default style={styles.value}>{formatNumericalData(observedHydrologicalData.flow)} m³/s</ThemedText>
-            </View>
-
-            <View style={styles.section}>
-              <MaterialCommunityIcons name="weather-pouring" size={20} color="#0077b6" />
-              {/* <Text style={styles.label}>Chuva acumulada:</Text> */}
-              <ThemedText type="default" style={styles.label}>Chuva acumulada:</ThemedText>
-              <ThemedText type="default" style={styles.value}>{observedHydrologicalData.accumulated_rain} mm</ThemedText>
-            </View>
-
-            <View style={styles.section}>
-              <MaterialCommunityIcons name="latitude" size={20} color="#555" />
-              {/* <Text style={styles.label}>Latitude:</Text> */}
-              {/* <Text style={styles.value}>{station.latitude}</Text> */}
-              <ThemedText default style={styles.label}>Latitude:</ThemedText>
-              <ThemedText default style={styles.value}>{station.latitude}</ThemedText>
-            </View>
-
-            <View style={styles.section}>
-              <MaterialCommunityIcons name="longitude" size={20} color="#555" />
-              {/* <Text style={styles.label}>Longitude:</Text> */}
-              {/* <Text style={styles.value}>{station.longitude}</Text> */}
-              <ThemedText default style={styles.label}>Longitude:</ThemedText>
-              <ThemedText default style={styles.value}>{station.longitude}</ThemedText>
-            </View>
-
-            {forecastHydrologicalData.length !== 0 && (
-              <>
-                <View style={styles.separator} />
-
-                <ThemedText style={styles.dataTitle} type='subtitle'>
-                  Previsão Hidrológica
-                </ThemedText>
-
-                <View style={styles.sectionPrognostico}>
-                  {forecastHydrologicalData.map((forecastRegister) => (
-                    <View key={forecastRegister.id} style={styles.cardPrognostico}>
-                      {/* <Text>{format(forecastRegister.date, 'dd/MM/yyyy')}</Text> */}
-                      <ThemedText type="default">{format(forecastRegister.date, 'dd/MM/yyyy')}</ThemedText>
-                      {/* <ThemedText style={{marginVertical: 20, fontWeight: '900'}}>{formatNumericalData(forecastRegister.elevation)} m</ThemedText> */}
-                      <ThemedText type="subtitle" style={{marginVertical: 10, fontSize: 25}}>{formatNumericalData(forecastRegister.flow / 100)} m</ThemedText>
-                      {/* <Text>{forecastRegister.low_derivation / 100} m - {forecastRegister.upp_derivation / 100} m</Text> */}
-                      <ThemedText type='default' style={{marginVertical: 5}}>{formatNumericalData(forecastRegister.low_derivation / 100)} m - {formatNumericalData(forecastRegister.upp_derivation / 100)} m</ThemedText>
-                      {/* <ClimatologicalInterpretation */}
-                      {/*   interpretation={ */}
-                      {/*     forecastRegister.climatologicalInterpretation  */}
-                      {/*   } */}
-                      {/* /> */}
-                      <ClimatologicalInterpretation
-                        interpretation={
-                          forecastRegister.climatologicalInterpretation
-                        }
-                      />
-                    </View>
-                  ))}
-
-                  {/* <View style={styles.cardPrognostico }> */}
-                  {/*   <Text>2 Meses</Text> */}
-                  {/*   <ThemedText style={{marginVertical: 20, fontWeight: '900'}}>{"1,5"} m</ThemedText> */}
-                  {/*   <ClimatologicalInterpretation */}
-                  {/*     interpretation={ */}
-                  {/*       "0"  */}
-                  {/*     } */}
-                  {/*   /> */}
-                  {/* </View> */}
-                  {/**/}
-                  {/* <View style={styles.cardPrognostico}> */}
-                  {/*   <Text>3 Meses</Text> */}
-                  {/*   <ThemedText style={{marginVertical: 20, fontWeight: '900'}}>{"3,5"} m</ThemedText> */}
-                  {/*   <View style={styles.statusPrognostico}> */}
-                  {/*     <Text style={styles.textoSuperior}>Emergência</Text> */}
-                  {/*     <Text style={styles.textoInferior}>Inundação</Text> */}
-                  {/*   </View> */}
-                  {/* </View> */}
-
-                </View>
-              </>
-            )}
+        <View style={styles.card}>
+          <View style={styles.titleHeader}>
+            <Ionicons name="water-outline" size={35} color="#0077B3" style={{ marginLeft: -4 }}/> 
+            <Text style={styles.title}>Nível do Rio</Text>
           </View>
-        )}
+          
+          <ClimatologicalInterpretation
+            style={{ alignSelf: "flex-start"}}
+            interpretation={
+              station.climatologicalInterpretation
+            }
+          />
+
+          <View style={styles.sectionInfo}>
+            <View style={styles.elevationInfo}>
+              <View style={styles.titleHeader}>
+                <Text style={{fontWeight: '800', fontSize: 40, color: "#0077B3"}}>{formatNumericalData(station.elevation / 100)}</Text>
+                <Text style={{marginTop: 7, marginLeft: 6}}>m</Text>
+              </View>
+            </View>
+
+            <DailyVariation value={station.dailyVariation} />
+          </View>
+
+          <View style={styles.separator} />
+
+          <View style={styles.section}>
+            <Entypo name="calendar" size={20} color="#555" />
+            {/* <Text style={styles.label}>Data:</Text> */}
+            <ThemedText type="default" style={styles.label}>Data:</ThemedText>
+            {/* <Text style={styles.value}>{format(observedHydrologicalData.date, 'dd/MM/yyyy HH:mm') + 'h'}</Text> */}
+            <ThemedText type="default" style={styles.value}>{format(station.date, 'dd/MM/yyyy ') + station.date.substring(11, 16) + 'h'}</ThemedText>
+          </View>
+
+          <View style={styles.section}>
+            <MaterialCommunityIcons name="water-pump" size={20} color="#0077b6" />
+            {/* <Text style={styles.label}>Vazão:</Text> */}
+            {/* <Text style={styles.value}>{formatNumericalData(observedHydrologicalData.flow)} m³/s</Text> */}
+            <ThemedText typ="default" style={styles.label}>Vazão:</ThemedText>
+            <ThemedText default style={styles.value}>{formatNumericalData(station.flow)} m³/s</ThemedText>
+          </View>
+
+          <View style={styles.section}>
+            <MaterialCommunityIcons name="weather-pouring" size={20} color="#0077b6" />
+            {/* <Text style={styles.label}>Chuva acumulada:</Text> */}
+            <ThemedText type="default" style={styles.label}>Chuva acumulada:</ThemedText>
+            <ThemedText type="default" style={styles.value}>{station.accumulated_rain} mm</ThemedText>
+          </View>
+
+          <View style={styles.section}>
+            <MaterialCommunityIcons name="latitude" size={20} color="#555" />
+            {/* <Text style={styles.label}>Latitude:</Text> */}
+            {/* <Text style={styles.value}>{station.latitude}</Text> */}
+            <ThemedText default style={styles.label}>Latitude:</ThemedText>
+            <ThemedText default style={styles.value}>{station.latitude}</ThemedText>
+          </View>
+
+          <View style={styles.section}>
+            <MaterialCommunityIcons name="longitude" size={20} color="#555" />
+            {/* <Text style={styles.label}>Longitude:</Text> */}
+            {/* <Text style={styles.value}>{station.longitude}</Text> */}
+            <ThemedText default style={styles.label}>Longitude:</ThemedText>
+            <ThemedText default style={styles.value}>{station.longitude}</ThemedText>
+          </View>
+
+          <View style={styles.separator} />
+
+          <ChartObservedAndForecast />
+
+          {forecastHydrologicalData.length !== 0 && (
+            <>
+              <View style={styles.separator} />
+
+              <ThemedText style={styles.dataTitle} type='subtitle'>
+                Previsão Hidrológica
+              </ThemedText>
+
+              <View style={styles.sectionPrognostico}>
+                {forecastHydrologicalData.map((forecastRegister) => (
+                  <View key={forecastRegister.id} style={styles.cardPrognostico}>
+                    {/* <Text>{format(forecastRegister.date, 'dd/MM/yyyy')}</Text> */}
+                    <ThemedText type="default">{format(forecastRegister.date, 'dd/MM/yyyy')}</ThemedText>
+                    {/* <ThemedText style={{marginVertical: 20, fontWeight: '900'}}>{formatNumericalData(forecastRegister.elevation)} m</ThemedText> */}
+                    <ThemedText type="subtitle" style={{marginVertical: 10, fontSize: 25}}>{formatNumericalData(forecastRegister.elevation / 100)} m</ThemedText>
+                    {/* <Text>{forecastRegister.low_derivation / 100} m - {forecastRegister.upp_derivation / 100} m</Text> */}
+                    <ThemedText type='default' style={{marginVertical: 5}}>{formatNumericalData(forecastRegister.low_derivation / 100)} m - {formatNumericalData(forecastRegister.upp_derivation / 100)} m</ThemedText>
+                    {/* <ClimatologicalInterpretation */}
+                    {/*   interpretation={ */}
+                    {/*     forecastRegister.climatologicalInterpretation  */}
+                    {/*   } */}
+                    {/* /> */}
+                    <ClimatologicalInterpretation
+                      interpretation={
+                        forecastRegister.climatologicalInterpretation
+                      }
+                    />
+                  </View>
+                ))}
+
+                {/* <View style={styles.cardPrognostico }> */}
+                {/*   <Text>2 Meses</Text> */}
+                {/*   <ThemedText style={{marginVertical: 20, fontWeight: '900'}}>{"1,5"} m</ThemedText> */}
+                {/*   <ClimatologicalInterpretation */}
+                {/*     interpretation={ */}
+                {/*       "0"  */}
+                {/*     } */}
+                {/*   /> */}
+                {/* </View> */}
+                {/**/}
+                {/* <View style={styles.cardPrognostico}> */}
+                {/*   <Text>3 Meses</Text> */}
+                {/*   <ThemedText style={{marginVertical: 20, fontWeight: '900'}}>{"3,5"} m</ThemedText> */}
+                {/*   <View style={styles.statusPrognostico}> */}
+                {/*     <Text style={styles.textoSuperior}>Emergência</Text> */}
+                {/*     <Text style={styles.textoInferior}>Inundação</Text> */}
+                {/*   </View> */}
+                {/* </View> */}
+
+              </View>
+            </>
+          )}
+        </View>
 
         {/* --- Seção Meteorológica --- */}
 
