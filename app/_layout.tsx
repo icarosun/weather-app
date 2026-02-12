@@ -9,9 +9,11 @@ import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 
 import { useColorScheme } from '@/hooks/useColorScheme'
 import { StationProvider } from '@/contexts/stationContext'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
@@ -34,14 +36,18 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <GestureHandlerRootView>
-        <StationProvider>
-          <Stack>
-            <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-            <Stack.Screen name='observedData' options={{ headerShown: true, title: "Dados observados"  }} />
-            <Stack.Screen name='+not-found' />
-          </Stack>
-        </StationProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <BottomSheetModalProvider>
+          <StationProvider>
+            <SafeAreaProvider>
+              <Stack>
+                <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+                <Stack.Screen name='observedData' options={{ headerShown: true, title: "Dados observados" }} />
+                <Stack.Screen name='+not-found' />
+              </Stack>
+            </SafeAreaProvider>
+          </StationProvider>
+        </BottomSheetModalProvider>
       </GestureHandlerRootView>
     </ThemeProvider>
   );

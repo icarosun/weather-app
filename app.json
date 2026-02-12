@@ -24,6 +24,7 @@
       "package": "com.santiagomonteiro.weatherapp",
       "config": {
         "googleMaps": {
+          "apiKey": "YOUR KEY HERE"
         }
       }
     },
