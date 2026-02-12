@@ -2,8 +2,7 @@ import { memo } from 'react'
 import { PixelRatio, StyleSheet, Text, View } from 'react-native'
 import { interpretationColors } from '@/constants/intepretation-colors'
 
-
-const size = PixelRatio.roundToNearestPixel(34)
+const size = PixelRatio.roundToNearestPixel(33)
 const radius = size / 2;
 
 export type ClimatologicalInterpretation =
@@ -47,7 +46,7 @@ const styles = StyleSheet.create({
     borderRadius: radius,
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 1,
+    borderWidth: 0.2,
     borderColor: '#000',
   },
   text: {

@@ -31,7 +31,8 @@ export const StationMarker = ({ station, onPress }: StationMarkerProps) => {
         longitude: station.longitude,
       }}
       onPress={onPress}
-      tracksViewChanges={shouldTrack}
+      tracksViewChanges={true}
+    // anchor={{ x: 0.3, y: 0.3}}
     >
       <CustomMapMarker
         elevation={station.elevation}
